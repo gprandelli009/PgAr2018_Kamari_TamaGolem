@@ -11,38 +11,49 @@ public class Equilibrio {
 		int somma=0;
 		Random random = new Random();
 		array = new int[n][n];
-
-		for (i=0;i<n;i++) {
-			do {
-				for (j=i;j<n;j++) {
-					if(i==j) {
-						array[i][j]=0;
-						if(i==n-1)
-							somma=1;
-					}
-					else
-					{ 
-						if(j==n-1) {
-							for(k=0;k<n;k++) {
-								somma=somma+array[i][k];
-							}
-							array[i][j]=-somma;
-							array[j][i]=somma;
+		boolean reinizia= false;
+		do {
+			//System.out.println("Inizio");
+			reinizia= false;
+			for (i=0;i<n;i++) {
+		
+				do {
+					for (j=i;j<n;j++) {
+						if(i==j) {
+							array[i][j]=0;
+							if(i==n-1)
+								somma=1;
 						}
-						else {
-							do {
-								array[i][j]=numeroRandom(random,vita);
-								array[j][i]=-array[i][j];
+						else
+						{  //con questo passaggio l'ultimo valore lo calcolo facendo
+							// la differenza con la somma dei danni che fa(positivo) e
+							//riceve(neg) se la somma fa 0 reinizio il ciclo da capo
+							if(j==n-1) {
+								for(k=0;k<n;k++) {
+									somma=somma+array[i][k];
+								}
+								array[i][j]=-somma;
+								array[j][i]=somma;
+				
+								if ( (i == n-2) && (somma==0 || Math.abs(somma)>vita)) reinizia=true;
 							}
-							while(array[i][j]==0);
+							else {
+								do {
+									array[i][j]=numeroRandom(random,vita);
+									array[j][i]=-array[i][j];
+								
+								}
+								while(array[i][j]==0);
+							}
 						}
 					}
+					//System.out.println("la somma vale "+somma);
+					if(reinizia) break;
 				}
-				//System.out.println("la somma vale "+somma);
+				while((Math.abs(somma)>vita || somma==0));
+				somma=0;
 			}
-			while(Math.abs(somma)>vita || somma==0);
-			somma=0;
-		}
+		}while (reinizia);
 
 	}
 
