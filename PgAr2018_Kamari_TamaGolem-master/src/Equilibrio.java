@@ -12,22 +12,29 @@ public class Equilibrio {
 		Random random = new Random();
 		array = new int[n][n];
 		boolean reinizia= false;
+		/*
+		*genero i danniche ogni elemento i fa (se pos) o riceve (se negativo)	
+		*ad un elemento j.
+		*/
 		do {
-			//System.out.println("Inizio");
 			reinizia= false;
 			for (i=0;i<n;i++) {
 		
 				do {
 					for (j=i;j<n;j++) {
 						if(i==j) {
-							array[i][j]=0;
+							array[i][j]=0; //un elemento a se stesso fa 0 danni
 							if(i==n-1)
-								somma=1;
+								somma=1;  /* se sono arrivato all'ultimo elemento[i] non serve
+										   generare altro perchè i danni che farebbe/riceverebbe 
+										   sono già stati generati
+										   dai valori precedenti di i.*/
 						}
 						else
-						{  //con questo passaggio l'ultimo valore lo calcolo facendo
+						{  //con questo passaggio l'ultimo valore di j lo calcolo facendo
 							// la differenza con la somma dei danni che fa(positivo) e
-							//riceve(neg) se la somma fa 0 reinizio il ciclo da capo
+							//riceve(neg) se la somma fa 0 e ho i che è il penultimo elemento reinizio
+							//da i=0 per evitare un ciclo infinito
 							if(j==n-1) {
 								for(k=0;k<n;k++) {
 									somma=somma+array[i][k];
@@ -39,9 +46,8 @@ public class Equilibrio {
 							}
 							else {
 								do {
-									array[i][j]=numeroRandom(random,vita);
-									array[j][i]=-array[i][j];
-								
+									array[i][j]=numeroRandom(random,vita); //negli altri casi genero un numero casuale in un intervallo
+									array[j][i]=-array[i][j];              // (tra -5 e 6 in questo caso) escluso lo 0.
 								}
 								while(array[i][j]==0);
 							}
@@ -50,10 +56,10 @@ public class Equilibrio {
 					//System.out.println("la somma vale "+somma);
 					if(reinizia) break;
 				}
-				while((Math.abs(somma)>vita || somma==0));
+				while((Math.abs(somma)>vita || somma==0)); //reinizio da j = 0
 				somma=0;
 			}
-		}while (reinizia);
+		}while (reinizia); //ricomincio da i=0
 
 	}
 
@@ -65,8 +71,8 @@ public class Equilibrio {
 		return array[p2-1][p1-1];
 	}
 
-	public String toString(){
-		StringBuilder s = new StringBuilder();
+	public String toString(){  												//creazione della tabellina finale che mostra 
+		StringBuilder s = new StringBuilder();								//al giocatore le relazioni tra i vari elementi
 
 		s.append(String.format("%10s","DANNI           |"));
 		for(int i=0;i<n;i++){
