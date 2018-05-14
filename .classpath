@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="PgAr2018_Kamari_TamaGolem-master/src"/>
+	<classpathentry kind="output" path="PgAr2018_Kamari_TamaGolem-master/out/production/TamaGolem"/>
+</classpath>
